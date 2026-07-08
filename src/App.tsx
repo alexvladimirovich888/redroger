@@ -7,16 +7,16 @@ const CONTRACT_ADDRESS = "Euh7_r2EGgXpWzN5m999_REDROGER_Crown_r2EG";
 
 // Fictional Solana Wallets representing the top winners
 const MOCK_LEADERBOARD: LeaderboardEntry[] = [
-  { rank: 1, wallet: "DYhS..HRNj", profit: 942, share: 22.0, received: "4.8K" },
-  { rank: 2, wallet: "DYBx..hdmA", profit: 815, share: 18.0, received: "3.9K" },
-  { rank: 3, wallet: "4jkL..3qXi", profit: 720, share: 14.0, received: "3.1K" },
-  { rank: 4, wallet: "6GWx..FzPy", profit: 540, share: 8.9, received: "1.9K" },
-  { rank: 5, wallet: "Djdf..A2M9", profit: 412, share: 7.5, received: "1.6K" },
-  { rank: 6, wallet: "BgXs..AQsv", profit: 310, share: 4.8, received: "1.1K" },
-  { rank: 7, wallet: "Hphm..Lx1w", profit: 185, share: 3.1, received: "680" },
-  { rank: 8, wallet: "Eosb..Cn35", profit: 120, share: 2.5, received: "550" },
-  { rank: 9, wallet: "9duo..tUHe", profit: 95, share: 2.1, received: "460" },
-  { rank: 10, wallet: "7kLq..9vPr", profit: 71, share: 1.8, received: "390" },
+  { rank: 1, wallet: "DYhS..HRNj", profit: 195, share: 22.0, received: "480" },
+  { rank: 2, wallet: "DYBx..hdmA", profit: 178, share: 18.0, received: "390" },
+  { rank: 3, wallet: "4jkL..3qXi", profit: 160, share: 14.0, received: "310" },
+  { rank: 4, wallet: "6GWx..FzPy", profit: 135, share: 8.9, received: "190" },
+  { rank: 5, wallet: "Djdf..A2M9", profit: 115, share: 7.5, received: "160" },
+  { rank: 6, wallet: "BgXs..AQsv", profit: 92, share: 4.8, received: "110" },
+  { rank: 7, wallet: "Hphm..Lx1w", profit: 78, share: 3.1, received: "68" },
+  { rank: 8, wallet: "Eosb..Cn35", profit: 62, share: 2.5, received: "55" },
+  { rank: 9, wallet: "9duo..tUHe", profit: 45, share: 2.1, received: "46" },
+  { rank: 10, wallet: "7kLq..9vPr", profit: 31, share: 1.8, received: "39" },
 ];
 
 export default function App() {
@@ -31,9 +31,9 @@ export default function App() {
   // Timer state (5 minutes cycle)
   const [timeLeft, setTimeLeft] = useState(287); // 4 minutes 47 seconds initially (matching 00:47)
   const [rewardCycles, setRewardCycles] = useState(1442);
-  const [treasuryPool, setTreasuryPool] = useState(24.85); // Maximum 30 SOL
-  const [rewardedElite, setRewardedElite] = useState(142500); // 142.5K RR
-  const [lastReward, setLastReward] = useState(0.25); // Smaller SOL reward
+  const [treasuryPool, setTreasuryPool] = useState(0.0); // Starts at 0
+  const [rewardedElite, setRewardedElite] = useState(14250); // 14.2K RR
+  const [lastReward, setLastReward] = useState(0.0); // Starts at 0 SOL
   const [flashStats, setFlashStats] = useState(false);
 
   const walletSectionRef = useRef<HTMLDivElement>(null);
@@ -70,11 +70,11 @@ export default function App() {
           playSound(600, 'triangle', 0.5);
           setRewardCycles((c) => c + 1);
           setTreasuryPool((pool) => {
-            const nextPool = pool + (Math.random() * 0.15 - 0.05);
-            return parseFloat((nextPool > 29.5 ? 24.1 : nextPool).toFixed(2));
+            const nextPool = pool + (Math.random() * 0.005);
+            return parseFloat((nextPool > 0.15 ? 0.01 : nextPool).toFixed(4));
           });
-          setRewardedElite((elite) => elite + Math.floor(Math.random() * 250) + 50);
-          setLastReward(parseFloat((Math.random() * 0.05 + 0.01).toFixed(3)));
+          setRewardedElite((elite) => elite + Math.floor(Math.random() * 25) + 5);
+          setLastReward(parseFloat((Math.random() * 0.0005 + 0.0001).toFixed(5)));
           
           setFlashStats(true);
           setTimeout(() => setFlashStats(false), 2000);
@@ -91,8 +91,8 @@ export default function App() {
   useEffect(() => {
     const fluctuation = setInterval(() => {
       setTreasuryPool((prev) => {
-        const nextPool = prev + (Math.random() * 0.04 - 0.02);
-        return parseFloat((nextPool > 29.5 ? 24.1 : nextPool).toFixed(2));
+        const nextPool = prev + (Math.random() * 0.001 - 0.0005);
+        return parseFloat((nextPool < 0 ? 0.0001 : nextPool > 0.15 ? 0.01 : nextPool).toFixed(4));
       });
     }, 4000);
     return () => clearInterval(fluctuation);
@@ -402,7 +402,7 @@ export default function App() {
           <div className="border-r-2 border-b-2 md:border-b-0 border-[#240808] p-4 flex flex-col items-center justify-center text-center">
             <span className="text-[9px] uppercase font-mono font-black mb-1">Treasury</span>
             <span className="text-lg font-black text-black">
-              {treasuryPool.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} SOL
+              {treasuryPool.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 })} SOL
             </span>
           </div>
           
@@ -417,22 +417,22 @@ export default function App() {
           <div className="border-r-2 border-[#240808] p-4 flex flex-col items-center justify-center text-center">
             <span className="text-[9px] uppercase font-mono font-black mb-1">Rewarded to Elite</span>
             <span className="text-lg font-black text-black">
-              {(rewardedElite / 1000).toFixed(1)}K RR
+              {(rewardedElite / 1000).toFixed(2)}K RR
             </span>
           </div>
           
           <div className="p-4 flex flex-col items-center justify-center text-center">
             <span className="text-[9px] uppercase font-mono font-black mb-1">Last Reward</span>
             <span className="text-lg font-black text-black">
-              +{lastReward.toFixed(3)} SOL
+              +{lastReward.toFixed(5)} SOL
             </span>
           </div>
 
           {/* Continuous scrolling live ledger feed */}
           <div className="col-span-2 md:col-span-4 bg-black text-[#8B0000] text-[8px] font-mono py-1 overflow-hidden whitespace-nowrap border-t-2 border-[#240808]">
             <div className="animate-marquee inline-block">
-              <span>0x8f...21a +$412 • 0x4d...90e +$942 • 0x1a...f6c +$95 • 0xbc...77d REWARDED • 0x99...221 +$720 • 0xea...001 +$310 • STRENGTH COMPLETED • THE STRONGEST WALLETS ARE REWARDED • </span>
-              <span>0x8f...21a +$412 • 0x4d...90e +$942 • 0x1a...f6c +$95 • 0xbc...77d REWARDED • 0x99...221 +$720 • 0xea...001 +$310 • STRENGTH COMPLETED • THE STRONGEST WALLETS ARE REWARDED • </span>
+              <span>0x8f...21a +$135 • 0x4d...90e +$195 • 0x1a...f6c +$45 • 0xbc...77d REWARDED • 0x99...221 +$160 • 0xea...001 +$92 • STRENGTH COMPLETED • THE STRONGEST WALLETS ARE REWARDED • </span>
+              <span>0x8f...21a +$135 • 0x4d...90e +$195 • 0x1a...f6c +$45 • 0xbc...77d REWARDED • 0x99...221 +$160 • 0xea...001 +$92 • STRENGTH COMPLETED • THE STRONGEST WALLETS ARE REWARDED • </span>
             </div>
           </div>
         </div>
