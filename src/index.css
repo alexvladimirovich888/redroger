@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-gothic: "MedievalSharp", cursive, serif;
+  --font-cinzel: "Cinzel Decorative", serif;
+  --font-serif-clean: "Cinzel", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-primary-bg: #8B0000;
+  --color-accent: #B11226;
+  --color-border-dark: #250909;
+}
+
+/* Custom styles for matching the original pixel-perfect wireframe feeling */
+body {
+  background-color: #8B0000;
+  color: #000000;
+  font-family: var(--font-serif-clean), ui-sans-serif, system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Custom retro scrollbar matching the dark crimson borders */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #250909;
+}
+::-webkit-scrollbar-thumb {
+  background: #B11226;
+  border: 3px solid #250909;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff2a44;
+}
+
+/* Grid overlay to give that subtle retro terminal draft/blueprint paper feel */
+.retro-grid {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(37, 9, 9, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 9, 9, 0.05) 1px, transparent 1px);
+}
+
+/* Custom continuous scrolling marquee */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+

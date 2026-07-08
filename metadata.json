@@ -1,0 +1,6 @@
+{
+  "name": "REDROGER",
+  "description": "Rewards the Victorious. The Strong Grow Stronger.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
